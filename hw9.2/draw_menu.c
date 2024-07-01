@@ -1,5 +1,3 @@
-#define _GNU_SOURCE 
-
 #include "draw_menu.h"
 #include <ncurses.h>
 #include <stdlib.h>
