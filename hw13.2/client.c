@@ -124,12 +124,12 @@ int main(void) {
             werase(window_send);
             draw_header(window_check, window_users, window_send);
             wrefresh(window_send);
-            if (0 == strcmp(req_send.msg, "exit")) {
+            if (0 == strcmp(req_send.msg, "EXIT")) {
                 req_send.type_msg = 1;
                 status = msgsnd(msg_id, &req_send, sizeof(req_send) - sizeof(req_send.mtype), 0);
                 break;
             }
-            else if (0 == strcmp(req_send.msg, "fin")) {
+            else if (0 == strcmp(req_send.msg, "END")) {
                 req_send.type_msg = 6;
                 status = msgsnd(msg_id, &req_send, sizeof(req_send) - sizeof(req_send.mtype), 0);
                 break;
