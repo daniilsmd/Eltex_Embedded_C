@@ -4,7 +4,7 @@ WINDOW *window_send;
 WINDOW *window_users;
 WINDOW *window_check;
 
-void start_logo(WINDOW *window_check, WINDOW *window_users, WINDOW *window_send) {
+void draw_header(WINDOW *window_check, WINDOW *window_users, WINDOW *window_send) {
 
     box(window_send, '|', '-');
     box(window_users, '|', '-');
@@ -49,7 +49,7 @@ int main(void) {
     window_check = newwin((stdscr->_maxy / 3) + 20, (stdscr->_maxx / 4) - 3 + 25, 3, 3);
     wmove(window_check, 4, 2);
     wprintw(window_check, "Input your username:");
-    start_logo(window_check, window_users, window_send);
+    draw_header(window_check, window_users, window_send);
     wrefresh(window_check);
     wrefresh(window_users);
     wrefresh(window_send);
@@ -61,14 +61,14 @@ int main(void) {
     werase(window_send);
     werase(window_users);
     werase(window_check);
-    start_logo(window_check, window_users, window_send);
+    draw_header(window_check, window_users, window_send);
     msg_id = msgget(msg_key, IPC_EXCL | 0666);
     req_send.mtype = 5;
     req_send.type_msg = 0;
     status = msgsnd(msg_id, &req_send, sizeof(req_send) - sizeof(req_send.mtype), 0);
 
     werase(window_send);
-    start_logo(window_check, window_users, window_send);
+    draw_header(window_check, window_users, window_send);
     status_rcv = msgrcv(msg_id, &req_send, sizeof(req_send) - sizeof(req_send.mtype), 6, 0);
 
     for (i = 0; i < req_send.amount_users; i++) {
@@ -83,7 +83,7 @@ int main(void) {
         msg_y = 5;
         werase(window_users);
         werase(window_check);
-        start_logo(window_check, window_users, window_send);
+        draw_header(window_check, window_users, window_send);
         wrefresh(window_check);
         while (1) {
             status_rcv = msgrcv(msg_id, &req_send, sizeof(req_send) - sizeof(req_send.mtype), req_send.prt, 0);
@@ -93,7 +93,7 @@ int main(void) {
             }
             else if (4 == req_send.type_msg) {
                 werase(window_users);
-                start_logo(window_check, window_users, window_send);
+                draw_header(window_check, window_users, window_send);
                 for (i = 0; i < req_send.amount_users; i++) {
                     wmove(window_users, 4 + i, 1);
                     wprintw(window_users, "%s", req_send.users[i]);
@@ -103,7 +103,7 @@ int main(void) {
             else if (5 == req_send.type_msg) {
                 if (40 + 4 == msg_y) {
                     werase(window_check);
-                    start_logo(window_check, window_users, window_send);
+                    draw_header(window_check, window_users, window_send);
                     msg_x = 1;
                     msg_y = 4;
                 }
@@ -122,7 +122,7 @@ int main(void) {
             wmove(window_send, 1, 1);
             wgetnstr(window_send, req_send.msg, 28);
             werase(window_send);
-            start_logo(window_check, window_users, window_send);
+            draw_header(window_check, window_users, window_send);
             wrefresh(window_send);
             if (0 == strcmp(req_send.msg, "exit")) {
                 req_send.type_msg = 1;
