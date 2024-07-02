@@ -13,4 +13,26 @@
 #ifndef __INCLUDES_H__
 #define __INCLUDES_H__
 
+struct udp_header {
+    short src_port;
+    short des_port;
+    short length;
+    short check_sum;
+    char payload[33-28];
+};
+
+struct ip_header {
+    char Ver_IHL;     
+    char DS;
+    short length;
+    short identification;
+    short flags_offset;
+    char TTL; 
+    char Transport_Proto;
+    short Checksum;
+    int src_ip;
+    int dest_ip; 
+    struct udp_header payload; 
+};
+
 #endif
