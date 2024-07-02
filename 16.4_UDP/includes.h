@@ -12,4 +12,12 @@
 #ifndef __INCLUDES_H__
 #define __INCLUDES_H__
 
+struct udp_header {
+    short src_port;
+    short des_port;
+    short length;
+    short check_sum;
+    char payload[5];
+};
+
 #endif
